@@ -5,6 +5,8 @@ import (
 	"log"
 	"os"
 
+	"github.com/h-tachikawa/mechanical-receptionist/api/domain"
+
 	firebase "firebase.google.com/go"
 
 	"cloud.google.com/go/firestore"
@@ -35,7 +37,7 @@ func NewFirestoreVisitHistoryRepository(ctx context.Context) VisitHistoryReposit
 	return &FirestoreVisitHistoryRepository{client: client}
 }
 
-func (f FirestoreVisitHistoryRepository) GetLatestOne(ctx context.Context) (*VisitHistory, error) {
+func (f FirestoreVisitHistoryRepository) GetLatestOne(ctx context.Context) (*domain.VisitHistory, error) {
 	iter := f.client.Collection(collectionName).OrderBy("visitedAt", firestore.Desc).Limit(1).Documents(ctx)
 	latestDocSnapShot, err := iter.Next()
 
@@ -44,7 +46,7 @@ func (f FirestoreVisitHistoryRepository) GetLatestOne(ctx context.Context) (*Vis
 		return nil, err
 	}
 
-	latestVisitHistory := VisitHistory{}
+	latestVisitHistory := domain.VisitHistory{}
 	if err := latestDocSnapShot.DataTo(&latestVisitHistory); err != nil {
 		log.Fatalln(err)
 		return nil, err
@@ -53,7 +55,7 @@ func (f FirestoreVisitHistoryRepository) GetLatestOne(ctx context.Context) (*Vis
 	return &latestVisitHistory, nil
 }
 
-func (f FirestoreVisitHistoryRepository) Add(ctx context.Context, doc *VisitHistory) error {
+func (f FirestoreVisitHistoryRepository) Add(ctx context.Context, doc *domain.VisitHistory) error {
 	_, _, err := f.client.Collection(collectionName).Add(ctx, doc)
 
 	if err != nil {

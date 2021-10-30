@@ -12,10 +12,6 @@ import (
 	"github.com/h-tachikawa/mechanical-receptionist/api/repository"
 )
 
-type VisitHistory struct {
-	VisitedAt time.Time `firestore:"visitedAt"` // 構造体のフィールド名はアッパーキャメルで書かないと構造体に上手くマッピングしてくれないので注意
-}
-
 type NotificationUseCase struct{}
 
 func NewNotificationUseCase() NotificationUseCase {
@@ -40,7 +36,9 @@ func (n NotificationUseCase) Call() error {
 		return nil
 	}
 
-	err = repo.Add(ctx, latestVisitHistory)
+	current := domain.VisitHistory{VisitedAt: currentTime}
+
+	err = repo.Add(ctx, &current)
 	if err != nil {
 		return err
 	}
