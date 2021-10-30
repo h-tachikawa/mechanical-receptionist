@@ -7,6 +7,6 @@ import (
 )
 
 type VisitHistoryRepository interface {
-	GetLatestOne(ctx context.Context) (*domain.VisitHistory, error)
+	GetLatest(ctx context.Context) (*domain.VisitHistory, error)
 	Add(ctx context.Context, doc *domain.VisitHistory) error
 }
