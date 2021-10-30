@@ -20,7 +20,7 @@ func (n NotificationHandler) Handle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err := usecase.NewNotificationUseCase().Call()
+	err := usecase.NewNotificationUseCase().Execute()
 
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)

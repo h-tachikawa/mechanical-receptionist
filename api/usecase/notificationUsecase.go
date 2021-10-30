@@ -18,10 +18,10 @@ func NewNotificationUseCase() NotificationUseCase {
 	return NotificationUseCase{}
 }
 
-func (n NotificationUseCase) Call() error {
+func (n NotificationUseCase) Execute() error {
 	ctx := context.Background()
-	repo := repository.NewFirestoreVisitHistoryRepository(ctx)
-	latestVisitHistory, err := repo.GetLatestOne(ctx)
+	visitHistoryRepo := repository.NewFirestoreVisitHistoryRepository(ctx)
+	latestVisitHistory, err := visitHistoryRepo.GetLatestOne(ctx)
 	latestVisitedTime := latestVisitHistory.VisitedAt
 
 	if err != nil {
@@ -38,7 +38,7 @@ func (n NotificationUseCase) Call() error {
 
 	current := domain.VisitHistory{VisitedAt: currentTime}
 
-	err = repo.Add(ctx, &current)
+	err = visitHistoryRepo.Add(ctx, &current)
 	if err != nil {
 		return err
 	}
