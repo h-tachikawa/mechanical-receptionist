@@ -1,6 +1,6 @@
 #include <SPI.h>
 #include <Ethernet2.h>
-#define ECHO_PIN 2
+#define ECHO_PIN 2                  
 #define TRIG_PIN 3
 #define MAX_DISTANCE 300
 
@@ -15,8 +15,6 @@ EthernetClient client;
 char server[] = "192.168.1.2";
 
 unsigned int port = 8000;
-
-unsigned int distanceAsCm;
 unsigned int targetMinDistance = 30;
 
 double duration = 0; //受信した間隔
