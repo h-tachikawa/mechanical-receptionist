@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"strings"
 )
@@ -32,10 +33,10 @@ func (receiver *LineNotifier) Notify(message string) error {
 	respBody, _ := ioutil.ReadAll(resp.Body)
 	defer resp.Body.Close()
 
-	fmt.Println(string(respBody))
+	log.Println(string(respBody))
 
 	if err != nil {
-		fmt.Println("error", err)
+		log.Fatalln("error", err)
 		return err
 	}
 

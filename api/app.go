@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -16,11 +15,11 @@ func main() {
 
 	err := godotenv.Load(".env")
 	if err != nil {
-		fmt.Printf("can not read .env file: %v", err)
+		log.Printf("can not read .env file: %v", err)
 	}
 
 	if os.Getenv("LINE_NOTIFY_ENDPOINT") == "" || os.Getenv("LINE_NOTIFY_TOKEN") == "" {
-		fmt.Println("Please set all of required environment variables(LINE_NOTIFY_ENDPOINT and LINE_NOTIFY_TOKEN)")
+		log.Fatalln("Please set all of required environment variables.")
 		return
 	}
 

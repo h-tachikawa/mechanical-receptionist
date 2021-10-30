@@ -2,7 +2,6 @@ package usecase
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"os"
 	"time"
@@ -53,14 +52,14 @@ func NotifyUseCase() error {
 
 	current := time.Now()
 
-	fmt.Println("current", current)
-	fmt.Println("latest", latestVisitHistory.VisitedAt)
+	log.Println("current", current)
+	log.Println("latest", latestVisitHistory.VisitedAt)
 
 	durationAsSec := current.Sub(latestVisitHistory.VisitedAt).Seconds()
 
-	fmt.Println(durationAsSec)
+	log.Println(durationAsSec)
 	if durationAsSec < 60 {
-		fmt.Println("前回の実行から1分以内なので何もしません")
+		log.Println("前回の実行から1分以内なので何もしません")
 		return nil
 	}
 

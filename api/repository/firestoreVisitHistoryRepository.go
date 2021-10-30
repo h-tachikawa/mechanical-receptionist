@@ -2,7 +2,6 @@ package repository
 
 import (
 	"context"
-	"fmt"
 	"log"
 
 	"cloud.google.com/go/firestore"
@@ -23,13 +22,13 @@ func (f FirestoreVisitHistoryRepository) GetLatestOne(ctx context.Context) (*Vis
 	latestDocSnapShot, err := iter.Next()
 
 	if err != nil {
-		fmt.Println(err)
+		log.Fatalln(err)
 		return nil, err
 	}
 
 	latestVisitHistory := VisitHistory{}
 	if err := latestDocSnapShot.DataTo(&latestVisitHistory); err != nil {
-		fmt.Println(err)
+		log.Fatalln(err)
 		return nil, err
 	}
 
