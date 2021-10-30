@@ -3,6 +3,7 @@ package adapter
 import (
 	"errors"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -31,7 +32,12 @@ func (receiver *LineNotifier) Notify(message string) error {
 	client := new(http.Client)
 	resp, err := client.Do(req)
 	respBody, _ := ioutil.ReadAll(resp.Body)
-	defer resp.Body.Close()
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			log.Fatalln(err)
+		}
+	}(resp.Body)
 
 	log.Println(string(respBody))
 
