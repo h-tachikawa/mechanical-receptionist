@@ -24,7 +24,7 @@ func NewLineNotifier(connSettings *ConnectionSettings) NotifierAdapter {
 }
 
 func (receiver *LineNotifier) Notify(message string) error {
-	body := strings.NewReader("message=" + message)
+	body := strings.NewReader(fmt.Sprintf("message=%s", message))
 	req, _ := http.NewRequest(http.MethodPost, receiver.connSettings.Endpoint, body)
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", receiver.connSettings.Token))

@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"os"
 	"time"
@@ -46,8 +47,7 @@ func NotifyUseCase() error {
 	}
 
 	lineNotifier := adapter.NewLineNotifier(connSettings)
-	err = lineNotifier.Notify("来客です。対応してください。\n" +
-		"訪問時刻 => " + time.Now().Format("2006-01-02 15:04:05"))
+	err = lineNotifier.Notify(fmt.Sprintf("来客です。対応してください。\n訪問時刻 => %s", time.Now().Format("2006-01-02 15:04:05")))
 
 	if err != nil {
 		return err
