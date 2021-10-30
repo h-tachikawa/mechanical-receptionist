@@ -6,13 +6,11 @@ import (
 	"os"
 	"time"
 
-	"cloud.google.com/go/firestore"
+	"github.com/h-tachikawa/mechanical-receptionist/api/domain"
 
 	"github.com/h-tachikawa/mechanical-receptionist/api/repository"
 
 	"github.com/h-tachikawa/mechanical-receptionist/api/adapter"
-
-	firebase "firebase.google.com/go"
 )
 
 type VisitHistory struct {
@@ -21,44 +19,18 @@ type VisitHistory struct {
 
 func NotifyUseCase() error {
 	ctx := context.Background()
-	conf := &firebase.Config{
-		ProjectID: os.Getenv("GCP_PROJECT_ID"),
-	}
-	app, err := firebase.NewApp(ctx, conf)
-
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	client, err := app.Firestore(ctx)
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	defer func(client *firestore.Client) {
-		err := client.Close()
-		if err != nil {
-			log.Fatalln("an error occurred", err)
-		}
-	}(client)
-
-	repo := repository.NewFirestoreVisitHistoryRepository(client)
-
+	repo := repository.NewFirestoreVisitHistoryRepository(ctx)
 	latestVisitHistory, err := repo.GetLatestOne(ctx)
+	latestVisitedTime := latestVisitHistory.VisitedAt
 
 	if err != nil {
 		return err
 	}
 
-	current := time.Now()
+	currentTime := time.Now()
+	notificationTargetSpec := domain.NewNotificationTargetSpecification(latestVisitedTime, currentTime)
 
-	log.Println("current", current)
-	log.Println("latest", latestVisitHistory.VisitedAt)
-
-	durationAsSec := current.Sub(latestVisitHistory.VisitedAt).Seconds()
-
-	log.Println(durationAsSec)
-	if durationAsSec < 60 {
+	if !notificationTargetSpec.IsSatisfied() {
 		log.Println("前回の実行から1分以内なので何もしません")
 		return nil
 	}
