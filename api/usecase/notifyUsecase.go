@@ -7,6 +7,8 @@ import (
 	"os"
 	"time"
 
+	"cloud.google.com/go/firestore"
+
 	"github.com/h-tachikawa/mechanical-receptionist/api/repository"
 
 	"github.com/h-tachikawa/mechanical-receptionist/api/adapter"
@@ -33,7 +35,13 @@ func NotifyUseCase() error {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	defer client.Close()
+
+	defer func(client *firestore.Client) {
+		err := client.Close()
+		if err != nil {
+			log.Fatalln("an error occurred", err)
+		}
+	}(client)
 
 	repo := repository.NewFirestoreVisitHistoryRepository(client)
 
@@ -67,7 +75,8 @@ func NotifyUseCase() error {
 	}
 
 	lineNotifier := adapter.NewLineNotifier(connSettings)
-	err = lineNotifier.Notify("来客です。対応してください。")
+	err = lineNotifier.Notify("来客です。対応してください。\n" +
+		"訪問時刻 => " + time.Now().Format("2006-01-02 15:04:05"))
 
 	if err != nil {
 		return err
