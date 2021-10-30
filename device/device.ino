@@ -14,7 +14,7 @@ IPAddress ip(192, 168, 1, 177);
 EthernetClient client;
 char server[] = "192.168.1.2";
 
-unsigned int port = 8080;
+unsigned int port = 8000;
 
 unsigned int distanceAsCm;
 unsigned int limitAsCm = 15;
@@ -28,7 +28,7 @@ boolean notifyToServer() {
   if (client.connect(server, port)) {
     Serial.println("connected");
     client.println("POST /notify HTTP/1.1");
-    client.println("Host: 192.168.1.2:8080");
+    client.println("Host: 192.168.1.2:8000");
     client.println("User-Agent: Arduino Post Client");
     client.println("Connection: close");
     client.println();

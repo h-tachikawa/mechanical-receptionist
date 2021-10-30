@@ -59,7 +59,6 @@ func (receiver *LineNotifier) notify(message string) error {
 	return nil
 }
 
-// TODO: どうもローカルで動かした方が話が早そうなので、DBも Firestore Emulator に変える
 func main() {
 	log.Print("starting server...")
 
@@ -72,7 +71,7 @@ func main() {
 
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8080"
+		port = "8000"
 		log.Printf("defaulting to port %s", port)
 	}
 
