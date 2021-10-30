@@ -6,11 +6,17 @@ import (
 	"os"
 
 	"github.com/h-tachikawa/mechanical-receptionist/api/handler"
-
 	"github.com/joho/godotenv"
 )
 
 func main() {
+	requiredEnvVars := []string{
+		"LINE_NOTIFY_ENDPOINT",
+		"LINE_NOTIFY_TOKEN",
+		"GCP_PROJECT_ID",
+		"FIRESTORE_EMULATOR_HOST",
+	}
+
 	log.Print("starting server...")
 
 	err := godotenv.Load(".env")
@@ -18,12 +24,14 @@ func main() {
 		log.Printf("can not read .env file: %v", err)
 	}
 
-	if os.Getenv("LINE_NOTIFY_ENDPOINT") == "" || os.Getenv("LINE_NOTIFY_TOKEN") == "" {
-		log.Fatalln("Please set all of required environment variables.")
-		return
+	for _, envVarName := range requiredEnvVars {
+		if os.Getenv(envVarName) == "" {
+			log.Fatalln("Please set all of required environment variables.")
+			return
+		}
 	}
 
-	http.HandleFunc("/notify", handler.NotifyHandler)
+	http.HandleFunc("/notify", handler.NewNotificationHandler().Handle)
 
 	port := os.Getenv("PORT")
 	if port == "" {
