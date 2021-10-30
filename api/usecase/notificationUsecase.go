@@ -7,18 +7,22 @@ import (
 	"os"
 	"time"
 
-	"github.com/h-tachikawa/mechanical-receptionist/api/domain"
-
-	"github.com/h-tachikawa/mechanical-receptionist/api/repository"
-
 	"github.com/h-tachikawa/mechanical-receptionist/api/adapter"
+	"github.com/h-tachikawa/mechanical-receptionist/api/domain"
+	"github.com/h-tachikawa/mechanical-receptionist/api/repository"
 )
 
 type VisitHistory struct {
 	VisitedAt time.Time `firestore:"visitedAt"` // 構造体のフィールド名はアッパーキャメルで書かないと構造体に上手くマッピングしてくれないので注意
 }
 
-func NotifyUseCase() error {
+type NotificationUseCase struct{}
+
+func NewNotificationUseCase() NotificationUseCase {
+	return NotificationUseCase{}
+}
+
+func (n NotificationUseCase) Call() error {
 	ctx := context.Background()
 	repo := repository.NewFirestoreVisitHistoryRepository(ctx)
 	latestVisitHistory, err := repo.GetLatestOne(ctx)
