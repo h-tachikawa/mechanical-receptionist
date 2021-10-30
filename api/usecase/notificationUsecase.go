@@ -21,7 +21,7 @@ func NewNotificationUseCase() NotificationUseCase {
 func (n NotificationUseCase) Execute() error {
 	ctx := context.Background()
 	visitHistoryRepo := repository.NewFirestoreVisitHistoryRepository(ctx)
-	latestVisitHistory, err := visitHistoryRepo.GetLatestOne(ctx)
+	latestVisitHistory, err := visitHistoryRepo.GetLatest(ctx)
 	latestVisitedTime := latestVisitHistory.VisitedAt
 
 	if err != nil {

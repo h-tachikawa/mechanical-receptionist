@@ -82,7 +82,7 @@ void loop() {
   Serial.println(" cm");
 
   boolean isHumanDetected = distance > targetMinDistance;
-
+  
   if (isHumanDetected) {
     delay(3000);
     Serial.println("return");
