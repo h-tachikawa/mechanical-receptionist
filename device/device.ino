@@ -17,7 +17,7 @@ char server[] = "192.168.1.2";
 unsigned int port = 8000;
 
 unsigned int distanceAsCm;
-unsigned int limitAsCm = 15;
+unsigned int targetMinDistance = 30;
 
 double duration = 0; //受信した間隔
 double distance = 0; //距離
@@ -28,7 +28,7 @@ boolean notifyToServer() {
   if (client.connect(server, port)) {
     Serial.println("connected");
     client.println("POST /notify HTTP/1.1");
-    client.println("Host: 192.168.1.2:8000");
+    client.println("Host: 192.168.1.2:8080");
     client.println("User-Agent: Arduino Post Client");
     client.println("Connection: close");
     client.println();
@@ -83,9 +83,9 @@ void loop() {
   Serial.print(distance);
   Serial.println(" cm");
 
-  boolean overLimit = distance > limitAsCm;
+  boolean isHumanDetected = distance > targetMinDistance;
 
-  if (overLimit) {
+  if (isHumanDetected) {
     delay(3000);
     Serial.println("return");
     return;
