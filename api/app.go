@@ -11,6 +11,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/joho/godotenv"
+
 	"cloud.google.com/go/firestore"
 
 	firebase "firebase.google.com/go"
@@ -61,6 +63,11 @@ func (receiver *LineNotifier) notify(message string) error {
 
 func main() {
 	log.Print("starting server...")
+
+	err := godotenv.Load(".env")
+	if err != nil {
+		fmt.Printf("can not read .env file: %v", err)
+	}
 
 	if os.Getenv("LINE_NOTIFY_ENDPOINT") == "" || os.Getenv("LINE_NOTIFY_TOKEN") == "" {
 		fmt.Println("Please set all of required environment variables(LINE_NOTIFY_ENDPOINT and LINE_NOTIFY_TOKEN)")
