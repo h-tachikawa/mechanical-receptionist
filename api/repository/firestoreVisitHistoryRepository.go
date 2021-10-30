@@ -32,13 +32,6 @@ func NewFirestoreVisitHistoryRepository(ctx context.Context) VisitHistoryReposit
 		log.Fatalln(err)
 	}
 
-	defer func(client *firestore.Client) {
-		err := client.Close()
-		if err != nil {
-			log.Fatalln("an error occurred", err)
-		}
-	}(client)
-
 	return &FirestoreVisitHistoryRepository{client: client}
 }
 
