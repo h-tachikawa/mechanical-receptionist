@@ -36,7 +36,7 @@ func (n NotificationUseCase) Execute() error {
 		return nil
 	}
 
-	current := domain.VisitHistory{VisitedAt: currentTime}
+	current := domain.NewVisitHistory(currentTime)
 
 	err = visitHistoryRepo.Add(ctx, &current)
 	if err != nil {
