@@ -5,5 +5,5 @@
 ## Usage
 ```
 $ make firebase-emulator/start
-$ make build/for-server-dev
+$ make watch
 ```

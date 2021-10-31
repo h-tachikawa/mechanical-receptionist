@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/h-tachikawa/mechanical-receptionist/api/handler"
+	"github.com/h-tachikawa/mechanical-receptionist/handler"
 	"github.com/joho/godotenv"
 )
 

@@ -7,9 +7,9 @@ import (
 	"os"
 	"time"
 
-	"github.com/h-tachikawa/mechanical-receptionist/api/adapter"
-	"github.com/h-tachikawa/mechanical-receptionist/api/domain"
-	"github.com/h-tachikawa/mechanical-receptionist/api/repository"
+	"github.com/h-tachikawa/mechanical-receptionist/adapter"
+	"github.com/h-tachikawa/mechanical-receptionist/domain"
+	"github.com/h-tachikawa/mechanical-receptionist/repository"
 )
 
 type NotificationUseCase struct{}

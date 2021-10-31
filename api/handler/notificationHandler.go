@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/h-tachikawa/mechanical-receptionist/api/usecase"
+	"github.com/h-tachikawa/mechanical-receptionist/usecase"
 )
 
 type NotificationHandler struct{}

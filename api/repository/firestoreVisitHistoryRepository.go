@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/h-tachikawa/mechanical-receptionist/api/domain"
+	"github.com/h-tachikawa/mechanical-receptionist/domain"
 
 	firebase "firebase.google.com/go"
 

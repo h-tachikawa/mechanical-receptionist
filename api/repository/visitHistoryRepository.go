@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 
-	"github.com/h-tachikawa/mechanical-receptionist/api/domain"
+	"github.com/h-tachikawa/mechanical-receptionist/domain"
 )
 
 type VisitHistoryRepository interface {
