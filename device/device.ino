@@ -59,7 +59,7 @@ void setup() {
   Serial.begin(9600);
   pinMode(ECHO_PIN, INPUT);
   pinMode(TRIG_PIN, OUTPUT);
-  Ethernet.begin(mac, ip); // ここで接続しないと loop() で HTTP リクエストを送れない
+  Ethernet.begin(mac, ip);
 
   while (!Serial) {
     ; // wait for serial port to connect. Needed for Leonardo only
