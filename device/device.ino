@@ -3,6 +3,7 @@
 #define ECHO_PIN 2
 #define TRIG_PIN 3
 #define MAX_DISTANCE 300
+#define SPEED_OF_SOUND_METER_PER_SECOND 340 /* 音速 ≒ 340[m/s] */
 
 // Arduino Ethernet Shield2 の Mac アドレス
 byte mac[] = {
@@ -59,7 +60,7 @@ double calcDistanceCm(double duration) {
    * 
    * 対象物との距離(cm) = ECHOの HIGH 時間(μs) * 340m * 100(m => cm に変換) / 1000000(s => μs に変換)
    * */
-  distance = duration * 340 * 100 / 1000000;
+  distance = duration * SPEED_OF_SOUND_METER_PER_SECOND * 100 / 1000000;
   return distance;
 }
 
