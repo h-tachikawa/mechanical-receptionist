@@ -1,6 +1,6 @@
 #include <SPI.h>
 #include <Ethernet2.h>
-#define ECHO_PIN 2                  
+#define ECHO_PIN 2
 #define TRIG_PIN 3
 #define MAX_DISTANCE 300
 
