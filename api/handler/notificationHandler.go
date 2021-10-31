@@ -13,11 +13,19 @@ func NewNotificationHandler() NotificationHandler {
 	return NotificationHandler{}
 }
 
+func ensurePostRequest(r *http.Request) bool {
+	if r.Method == http.MethodPost {
+		return true
+	}
+	return false
+}
+
 func (n NotificationHandler) Handle(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
+	isPostRequest := ensurePostRequest(r)
+
+	if !isPostRequest {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		fmt.Fprintln(w, "Only allowed POST method.")
-		return
 	}
 
 	err := usecase.NewNotificationUseCase().Execute()
