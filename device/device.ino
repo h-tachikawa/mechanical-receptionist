@@ -40,18 +40,26 @@ boolean notifyToServer() {
   }
 }
 
-double getCurrentDistance() {
+double getCurrentDuration() {
   digitalWrite(TRIG_PIN, LOW);
   delayMicroseconds(2);
   digitalWrite(TRIG_PIN, HIGH); //超音波を出力
-  delayMicroseconds( 10 ); //
-  digitalWrite(TRIG_PIN, LOW); 
-  return pulseIn(ECHO_PIN, HIGH); //センサからの入力
+  delayMicroseconds( 10 ); // 10マイクロ秒待つ
+  digitalWrite(TRIG_PIN, LOW);  // 超音波を止める
+  return pulseIn(ECHO_PIN, HIGH); //超音波の移動距離(往復)を返す
 }
 
-double calcDistance(double duration) {
-  duration = duration / 2; //往復距離を半分にする
-  distance = duration * 340 * 100 / 1000000; // 音速を340m/sに設定
+double calcDistanceCm(double duration) {
+  duration = duration / 2; // duration は往復分の時間になっているので半分にする
+
+  /**
+   * 音速 ≒ 340[m/s]
+   * 超音波の移動距離(m)=(ECHO の HIGH 時間(μs) × 超音波速度)
+   * 超音波の速さ =　音速 ≒ 340[m/s] = 34000[cm/s] = 0.034[cm/μs]
+   * 
+   * 対象物との距離(cm) = ECHOの HIGH 時間(μs) * 340m * 100(m => cm に変換) / 1000000(s => μs に変換)
+   * */
+  distance = duration * 340 * 100 / 1000000;
   return distance;
 }
 
@@ -70,13 +78,13 @@ void setup() {
 }
 
 void loop() {
-  duration = getCurrentDistance();
+  duration = getCurrentDuration();
 
   if (duration <= 0) {
     return;
   }
 
-  distance = calcDistance(duration);
+  distance = calcDistanceCm(duration);
   Serial.print("distance:");
   Serial.print(distance);
   Serial.println(" cm");
