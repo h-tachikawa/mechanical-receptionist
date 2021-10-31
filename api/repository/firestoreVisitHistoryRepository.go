@@ -37,7 +37,7 @@ func NewFirestoreVisitHistoryRepository(ctx context.Context) VisitHistoryReposit
 	return &FirestoreVisitHistoryRepository{client: client}
 }
 
-func (f FirestoreVisitHistoryRepository) GetLatestOne(ctx context.Context) (*domain.VisitHistory, error) {
+func (f FirestoreVisitHistoryRepository) GetLatest(ctx context.Context) (*domain.VisitHistory, error) {
 	iter := f.client.Collection(collectionName).OrderBy("visitedAt", firestore.Desc).Limit(1).Documents(ctx)
 	latestDocSnapShot, err := iter.Next()
 
