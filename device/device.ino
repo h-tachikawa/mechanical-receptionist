@@ -69,10 +69,6 @@ void setup() {
   pinMode(TRIG_PIN, OUTPUT);
   Ethernet.begin(mac, ip);
 
-  while (!Serial) {
-    ; // wait for serial port to connect. Needed for Leonardo only
-  }
-
   delay(1000);
   Serial.println("connecting...");
 }
