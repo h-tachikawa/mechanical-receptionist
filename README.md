@@ -19,3 +19,5 @@ $ make watch
 ## Architecture
 ### Hardware
 <img src="https://user-images.githubusercontent.com/40758815/139569928-796fa62d-d6cb-4047-bda7-1de9753dac31.png" width=600 />
+
+### Software
