@@ -46,7 +46,7 @@ double getCurrentDuration() {
   digitalWrite(TRIG_PIN, HIGH); //超音波を出力
   delayMicroseconds( 10 ); // 10マイクロ秒待つ
   digitalWrite(TRIG_PIN, LOW);  // 超音波を止める
-  return pulseIn(ECHO_PIN, HIGH); //超音波の移動距離(往復)を返す
+  return pulseIn(ECHO_PIN, HIGH); //パルスが発生していた時間(μs)を返す
 }
 
 double calcDistanceCm(double duration) {
