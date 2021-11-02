@@ -19,7 +19,7 @@ char server[] = "192.168.1.2";
 unsigned int port = 8000;
 unsigned int targetMinDistance = 30;
 
-boolean notifyToServer() {
+auto notifyToServer() -> boolean {
     Serial.println("try to connect");
 
     if (client.connect(server, port)) {

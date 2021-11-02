@@ -1,8 +1,7 @@
 #include "SRF05.h"
 
-#define SPEED_OF_SOUND_METER_PER_SECOND 340 // 音速
+#define SPEED_OF_SOUND_METER_PER_SECOND 340 // 音速(340[m/s])
 
-// Constructor
 SRF05::SRF05(int trigPin, int echoPin) {
     _trig = trigPin;
     _echo = echoPin;
@@ -11,17 +10,21 @@ SRF05::SRF05(int trigPin, int echoPin) {
     pinMode(_echo, INPUT);
 }
 
-float SRF05::distance(void) {
+SRF05::~SRF05(void) {
+    // do nothing 
+}
+
+auto SRF05::distance(void) -> float {
     this->emitUltrasonicWaves();
-    int durationAsMicrosec = this->waitForUltrasonicWaveReflection();
+    auto durationAsMicrosec = this->waitForUltrasonicWaveReflection();
 
     if (durationAsMicrosec <= 0) {
         return -1;
     }
 
-    float oneWayDurationAsMicrosec = durationAsMicrosec / 2;
-    //                                               音速 = 340m/s = 34000cm/s = 0.034cm/μs 
-    float durationAsCm = oneWayDurationAsMicrosec * (SPEED_OF_SOUND_METER_PER_SECOND * 100 / 1000000);
+    auto oneWayDurationAsMicrosec = durationAsMicrosec / 2;
+    //                                               音速 = 340[m/s] = 34000[cm/s] = 0.034[cm/μs] 
+    auto durationAsCm = oneWayDurationAsMicrosec * SPEED_OF_SOUND_METER_PER_SECOND * 100 / 1000000;
     return durationAsCm;
 }
 
@@ -33,6 +36,6 @@ void SRF05::emitUltrasonicWaves(void) {
     digitalWrite(_trig, LOW);
 }
 
-unsigned long SRF05::waitForUltrasonicWaveReflection(void) {
+auto SRF05::waitForUltrasonicWaveReflection(void) -> unsigned long {
     return pulseIn(_echo, HIGH);
 }
