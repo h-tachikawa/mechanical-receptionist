@@ -1,9 +1,8 @@
 #include <SPI.h>
 #include <Ethernet2.h>
+#include "SRF05.h"
 #define ECHO_PIN 2
 #define TRIG_PIN 3
-#define MAX_DISTANCE 300
-#define SPEED_OF_SOUND_METER_PER_SECOND 340 /* 音速 ≒ 340[m/s] */
 
 // Arduino Ethernet Shield2 の Mac アドレス
 byte mac[] = {
@@ -12,14 +11,12 @@ byte mac[] = {
 
 IPAddress ip(192, 168, 1, 177);
 
+SRF05 srf05(TRIG_PIN, ECHO_PIN);
 EthernetClient client;
 char server[] = "192.168.1.2";
 
 unsigned int port = 8000;
 unsigned int targetMinDistance = 30;
-
-double duration = 0; //受信した間隔
-double distance = 0; //距離
 
 boolean notifyToServer() {
   Serial.println("try to connect");
@@ -41,47 +38,17 @@ boolean notifyToServer() {
   }
 }
 
-double getCurrentDuration() {
-  digitalWrite(TRIG_PIN, LOW);
-  delayMicroseconds(2);
-  digitalWrite(TRIG_PIN, HIGH); //超音波を出力
-  delayMicroseconds( 10 ); // 10マイクロ秒待つ
-  digitalWrite(TRIG_PIN, LOW);  // 超音波を止める
-  return pulseIn(ECHO_PIN, HIGH); //パルスが発生していた時間(μs)を返す
-}
-
-double calcDistanceCm(double duration) {
-  duration = duration / 2; // duration は往復分の時間になっているので半分にする
-
-  /**
-   * 音速 ≒ 340[m/s]
-   * 超音波の移動距離(m)=(ECHO の HIGH 時間(μs) × 超音波速度)
-   * 超音波の速さ =　音速 ≒ 340[m/s] = 34000[cm/s] = 0.034[cm/μs]
-   * 
-   * 対象物との距離(cm) = ECHOの HIGH 時間(μs) * 340m * 100(m => cm に変換) / 1000000(s => μs に変換)
-   * */
-  distance = duration * SPEED_OF_SOUND_METER_PER_SECOND * 100 / 1000000;
-  return distance;
-}
-
 void setup() {
   Serial.begin(9600);
-  pinMode(ECHO_PIN, INPUT);
-  pinMode(TRIG_PIN, OUTPUT);
   Ethernet.begin(mac, ip);
+  srf05.begin();
 
   delay(1000);
   Serial.println("connecting...");
 }
 
 void loop() {
-  duration = getCurrentDuration();
-
-  if (duration <= 0) {
-    return;
-  }
-
-  distance = calcDistanceCm(duration);
+  int distance = srf05.distance();
   Serial.print("distance:");
   Serial.print(distance);
   Serial.println(" cm");
