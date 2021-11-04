@@ -16,7 +16,7 @@ SRF05::~SRF05(void) {
 
 auto SRF05::distance(void) -> float {
     this->emitUltrasonicWaves();
-    auto durationAsMicrosec = this->waitForUltrasonicWaveReflection();
+    auto durationAsMicrosec = this->waitForUltrasonicWavesReflection();
 
     if (durationAsMicrosec <= 0) {
         return -1;
@@ -28,7 +28,7 @@ auto SRF05::distance(void) -> float {
     return durationAsCm;
 }
 
-void SRF05::emitUltrasonicWaves(void) {
+ auto SRF05::emitUltrasonicWaves(void) -> void {
     digitalWrite(_trig, LOW);
     delayMicroseconds(1);
     digitalWrite(_trig, HIGH);
@@ -36,6 +36,6 @@ void SRF05::emitUltrasonicWaves(void) {
     digitalWrite(_trig, LOW);
 }
 
-auto SRF05::waitForUltrasonicWaveReflection(void) -> unsigned long {
+auto SRF05::waitForUltrasonicWavesReflection(void) -> unsigned long {
     return pulseIn(_echo, HIGH);
 }

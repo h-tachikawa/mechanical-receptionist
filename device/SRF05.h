@@ -13,8 +13,8 @@ private:
     uint8_t _trig;
     uint8_t _echo;
 
-    void emitUltrasonicWaves(void);
-    auto waitForUltrasonicWaveReflection(void) -> unsigned long;
+    auto emitUltrasonicWaves(void) -> void;
+    auto waitForUltrasonicWavesReflection(void) -> unsigned long;
 };
 
 #endif // SRF05_H
