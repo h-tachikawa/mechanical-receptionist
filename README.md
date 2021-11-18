@@ -21,5 +21,4 @@ $ make watch
 <img src="https://user-images.githubusercontent.com/40758815/139569928-796fa62d-d6cb-4047-bda7-1de9753dac31.png" width=600 />
 
 ### Software
-<img src="https://user-images.githubusercontent.com/40758815/141968363-8edfdc80-941e-4aae-a1b5-bebfd4311d43.png" width=600 />
-
+<img src="https://user-images.githubusercontent.com/40758815/142388098-142b1005-1abb-4db5-8730-5ba0d0ff7412.png" width=600 />
