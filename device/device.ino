@@ -53,15 +53,14 @@ void loop() {
     Serial.print(distance);
     Serial.println(" cm");
 
-    boolean isHumanDetected = distance > targetMinDistance;
+    boolean isHumanDetected = distance <= targetMinDistance;
 
     if (isHumanDetected) {
+        notifyToServer();
         delay(3000);
-        Serial.println("return");
         return;
     }
 
-    notifyToServer();
-
     delay(3000);
+    return;
 }
