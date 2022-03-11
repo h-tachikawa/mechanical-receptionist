@@ -2,6 +2,8 @@
 来客を超音波センサーで感知して、LINE に通知してくれるアプリケーション。  
 ヘッドホンなどをしていると来客に気づけないことがあり、それを解消するために作成した。
 
+![ezgif-1-f6aa640f42](https://user-images.githubusercontent.com/40758815/157905375-16de79e6-2c5a-4ea9-9b9a-174a5cd0ff9e.gif)
+
 ## Usage
 ```
 $ make firebase-emulator/start
